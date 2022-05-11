@@ -5,19 +5,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.File;
+
 @Entity
 @Setter
 @Getter
 @NoArgsConstructor
-@Table(name = "ClothingItem")
-public class ClothingItem {
+@Table(name = "Apparel")
+public class Apparel {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-
-    @Column(name = "name")
-    private String name;
 
     @Column(name = "type")
     private String type;
@@ -25,21 +24,22 @@ public class ClothingItem {
     @Column(name = "colour")
     private String colour;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "imageId", referencedColumnName = "id")
-    private ApparelImage apparelImage;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride( name = "type", column = @Column(name = "file_type"))
+    })
+    private FileDB image;
 
-    public ClothingItem(String name, String type, String colour) {
-        this.name = name;
+    public Apparel(String type, String colour, FileDB image) {
         this.type = type;
         this.colour = colour;
+        this.image = image;
     }
 
     @Override
     public String toString() {
-        return "ClothingItem{" +
+        return "Apparel{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
                 ", type='" + type + '\'' +
                 ", colour='" + colour + '\'' +
                 '}';
