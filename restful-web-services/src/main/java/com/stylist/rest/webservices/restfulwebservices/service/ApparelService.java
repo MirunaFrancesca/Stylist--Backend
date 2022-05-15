@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.stylist.rest.webservices.restfulwebservices.model.Apparel;
+import com.stylist.rest.webservices.restfulwebservices.model.BasicColour;
 import com.stylist.rest.webservices.restfulwebservices.model.FileDB;
 import com.stylist.rest.webservices.restfulwebservices.repo.ApparelRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class ApparelService {
     @Autowired
     private ApparelRepo apparelRepo;
 
-    public Apparel addApparel(MultipartFile file, String type, String colour) throws IOException {
+    public Apparel addApparel(MultipartFile file, String type, BasicColour colour) throws IOException {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         FileDB image = new FileDB(fileName, file.getContentType(), file.getBytes());
         Apparel newApparel = new Apparel(type, colour, image);

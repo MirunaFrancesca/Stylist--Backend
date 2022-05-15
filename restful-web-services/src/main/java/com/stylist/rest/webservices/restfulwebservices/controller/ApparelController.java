@@ -3,8 +3,10 @@ package com.stylist.rest.webservices.restfulwebservices.controller;
 import com.stylist.rest.webservices.restfulwebservices.dto.ResponseMessage;
 import com.stylist.rest.webservices.restfulwebservices.model.Apparel;
 
+import com.stylist.rest.webservices.restfulwebservices.model.BasicColour;
 import com.stylist.rest.webservices.restfulwebservices.model.FileDB;
 import com.stylist.rest.webservices.restfulwebservices.service.ApparelService;
+import com.stylist.rest.webservices.restfulwebservices.service.OutfitGenerationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 
 @RestController
 @RequestMapping("/apparel")
@@ -23,9 +24,14 @@ public class ApparelController {
     @Autowired
     private ApparelService apparelService;
 
+    @Autowired
+    private OutfitGenerationService outfitGenerationService;
+
     @PostMapping("/save")
-    public ResponseEntity<ResponseMessage> saveApparel(@RequestParam("file") MultipartFile file, @RequestParam("type") String type, @RequestParam("colour") String colour) {
-        String message = "";
+    public ResponseEntity<ResponseMessage> saveApparel(@RequestParam("file") MultipartFile file,
+                                                       @RequestParam("type") String type,
+                                                       @RequestParam("colour") BasicColour colour) {
+        String message;
         try {
             this.apparelService.addApparel(file, type, colour);
 
@@ -60,6 +66,11 @@ public class ApparelController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\"")
                 .body(fileDB.getData());
+    }
+
+    @GetMapping(path="/get-outfit")
+    public List<Apparel> getRandomOutfit(){
+        return this.outfitGenerationService.getRandomOufit();
     }
 
 }
