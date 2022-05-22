@@ -33,8 +33,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    void registerUser(@RequestBody User newUser){
-        userService.createUser(newUser);
+    public boolean registerUser(@RequestBody User newUser){
+        return userService.createUser(newUser);
     }
 
 

@@ -17,42 +17,44 @@ import static java.util.Arrays.asList;
 @Service
 public class OutfitGenerationService {
     private final ColourMap colourMap = new ColourMap();
+    private final List<List<Apparel>> outfits = new ArrayList<>();
 
     @Autowired
     private ApparelRepo apparelRepo;
 
-    public OutfitGenerationService() {}
+    public OutfitGenerationService() {
+    }
 
-    public List<Apparel> getRandomOufit() {
-        Apparel chosenApparel = this.getRandomItem();
-        System.out.println(chosenApparel);
-        if(chosenApparel.isOnePiece())
-            return new ArrayList<>(List.of(chosenApparel));
+    public void updateOutfits() {
+        apparelRepo.findAll().stream()
+                .filter(el -> !el.isBottom())
+                .forEach(item -> {
+                    if(item.isOnePiece())
+                        this.outfits.add(new ArrayList<>(List.of(item)));
+                    else {
+                        List<Apparel> matches = this.getMatchyApparel(item);
+                        matches.forEach(match -> this.outfits.add(new ArrayList<>(asList(item, match))));
+                    }
+                });
 
+        System.out.println(this.outfits);
+    }
+
+    public List<Apparel> getMatchyApparel(Apparel chosenApparel) {
         List<BasicColour> colourMatches = this.colourMap.mapMatchingColours(chosenApparel.getColour());
         System.out.println(colourMatches);
-
         List<Apparel> allPossibleMatches = this.apparelRepo.findAll().stream()
                                             .filter(item -> item.isBottom() != chosenApparel.isBottom() && colourMatches.stream().map(BasicColour::getName).anyMatch(item.getColour().getName()::equals))
                                             .collect(Collectors.toList());
-
         System.out.println(allPossibleMatches);
-        if(allPossibleMatches.size() > 0) {
-            Random rand = new Random();
-            System.out.println(rand);
-            Apparel matchingApparel = allPossibleMatches.get(rand.nextInt(allPossibleMatches.size()));
-            return new ArrayList<>(asList(chosenApparel, matchingApparel));
-        }
-        return null;
+
+        return allPossibleMatches;
     }
 
-    private Apparel getRandomItem() {
-        List<Integer> allIds = apparelRepo.findAll().stream()
-                                .map(Apparel::getId)
-                                .collect(Collectors.toList());
+    public List<Apparel> getRandomOutfit() {
         Random rand = new Random();
-        int randomId = allIds.get(rand.nextInt(allIds.size()));
-        return apparelRepo.findById(randomId).orElseThrow();
+        if(this.outfits.size() == 0) this.updateOutfits();
+        return this.outfits.get(rand.nextInt(this.outfits.size()));
     }
 
 }

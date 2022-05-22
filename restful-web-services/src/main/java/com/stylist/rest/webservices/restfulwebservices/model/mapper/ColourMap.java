@@ -164,75 +164,106 @@ public class ColourMap {
     }
 
     private List<BasicColour> getMatchingColoursForDarkReds() {
-        return darkGreens;
+        List<BasicColour> result = new ArrayList<>(darkGreens);
+        result.addAll(asList(black, white, cream, beige, lightGray));
+        return result;
     }
 
     private List<BasicColour> getMatchingColoursForMediumReds() {
-        return mediumGreens;
+        List<BasicColour> result = new ArrayList<>(mediumGreens);
+        result.addAll(asList(black, white, cream, beige, lightGray));
+        return result;
     }
 
     private List<BasicColour> getMatchingColoursForOranges() {
-        return mediumBlues;
+        List<BasicColour> result = new ArrayList<>(mediumBlues);
+        result.addAll(asList(black, white, cream, beige, lightGray));
+        return result;
     }
 
     private List<BasicColour> getMatchingColoursForDarkYellows() {
-        return darkPurples;
+        List<BasicColour> result = new ArrayList<>(darkPurples);
+        result.addAll(asList(black, white, cream, beige, lightGray));
+        return result;
     }
 
     private List<BasicColour> getMatchingColoursForMediumYellows() {
-        return mediumPurples;
+        List<BasicColour> result = new ArrayList<>(mediumPurples);
+        result.addAll(asList(black, white, cream, beige, lightGray));
+        return result;
     }
 
     private List<BasicColour> getMatchingColoursForLightYellows() {
-        return lightPurples;
+        List<BasicColour> result = new ArrayList<>(lightPurples);
+        result.addAll(asList(black, white, cream, beige, lightGray));
+        return result;
     }
 
     private List<BasicColour> getMatchingColoursForDarkGreens() {
-        return darkPinks;
+        List<BasicColour> result = new ArrayList<>(darkPinks);
+        result.addAll(asList(black, white, cream, beige, lightGray));
+        return result;
     }
 
     private List<BasicColour> getMatchingColoursForMediumGreens() {
-        return mediumPinks;
+        List<BasicColour> result = new ArrayList<>(mediumPinks);
+        result.addAll(asList(black, white, cream, beige, lightGray));
+        return result;
     }
 
     private List<BasicColour> getMatchingColoursForLightGreens() {
-        return lightPinks;
+        List<BasicColour> result = new ArrayList<>(lightPinks);
+        result.addAll(asList(black, white, cream, beige, lightGray));
+        return result;
     }
 
     private List<BasicColour> getMatchingColoursForDarkBlues() {
-        return new ArrayList<>(asList(orange, tangerine));
+        List<BasicColour> result = new ArrayList<>(asList(orange, tangerine, black, white, cream, beige, lightGray));
+        return result;
     }
 
     private List<BasicColour> getMatchingColoursForMediumBlues() {
-        return new ArrayList<>(asList(orange, tangerine));
+        List<BasicColour> result = new ArrayList<>(asList(orange, tangerine, black, white, cream, beige, lightGray));
+        return result;
     }
 
     private List<BasicColour> getMatchingColoursForLightBlues() {
-        return new ArrayList<>(asList(orange, tangerine));
+        List<BasicColour> result = new ArrayList<>(asList(orange, tangerine, black, white, cream, beige, lightGray));
+        return result;
     }
 
     private List<BasicColour> getMatchingColoursForDarkPurples() {
-        return new ArrayList<>(asList(orange, tangerine));
+        List<BasicColour> result = new ArrayList<>(asList(orange, tangerine, black, white, cream, beige, lightGray));
+        return result;
     }
 
     private List<BasicColour> getMatchingColoursForMediumPurples() {
-        return new ArrayList<>(asList(yellow, lemon));
+        List<BasicColour> result = new ArrayList<>(asList(yellow, lemon, black, white, cream, beige, lightGray));
+        return result;
     }
 
     private List<BasicColour> getMatchingColoursForLightPurples() {
-        return lightGreens;
+        List<BasicColour> result = new ArrayList<>(lightGreens);
+        result.addAll(asList(black, white, cream, beige, lightGray));
+        return result;
     }
 
     private List<BasicColour> getMatchingColoursForDarkPinks() {
-        return darkGreens;
+        List<BasicColour> result = new ArrayList<>(lightPinks);
+        result.addAll(asList(black, white, cream, beige, lightGray));
+        return result;
     }
 
     private List<BasicColour> getMatchingColoursForMediumPinks() {
-        return mediumGreens;
+        List<BasicColour> result = new ArrayList<>(mediumGreens);
+        result.addAll(asList(black, white, cream, beige, lightGray));
+        return result;
     }
 
     private List<BasicColour> getMatchingColoursForLightPinks() {
-        return lightGreens;
+        List<BasicColour> result = new ArrayList<>(lightGreens);
+        result.addAll(asList(black, white, cream, beige, lightGray));
+        return result;
     }
 
     private List<BasicColour> getMatchingColoursForDarkBrowns() {
@@ -272,11 +303,38 @@ public class ColourMap {
     }
 
     private List<BasicColour> getMatchingColoursForBlack() {
-        return new ArrayList<>(asList(nude, beige, cream, black, white, brown, lightBrown, gray, lightGray, darkGray));
+        List<BasicColour> result = new ArrayList<>(darkReds);
+        result.addAll(mediumReds);
+        result.addAll(darkGreens);
+        result.addAll(mediumGreens);
+        result.addAll(darkBlues);
+        result.addAll(mediumBlues);
+        result.addAll(darkPurples);
+        result.addAll(mediumPurples);
+        result.addAll(darkPinks);
+        result.addAll(mediumPinks);
+        result.addAll(lightPinks);
+        result.addAll(asList(orange, tangerine, nude, beige, cream, black, white, brown, lightBrown, gray, lightGray, darkGray));
+        return result;
     }
 
     private List<BasicColour> getMatchingColoursForWhite() {
-        return new ArrayList<>(asList(nude, beige, cream, black, white, brown, lightBrown, gray, lightGray, darkGray));
+        List<BasicColour> result = new ArrayList<>(darkReds);
+        result.addAll(mediumReds);
+        result.addAll(darkGreens);
+        result.addAll(mediumGreens);
+        result.addAll(lightGreens);
+        result.addAll(darkBlues);
+        result.addAll(mediumBlues);
+        result.addAll(lightBlues);
+        result.addAll(darkPurples);
+        result.addAll(mediumPurples);
+        result.addAll(lightPurples);
+        result.addAll(darkPinks);
+        result.addAll(mediumPinks);
+        result.addAll(lightPinks);
+        result.addAll(asList(nude, beige, cream, black, white, brown, lightBrown, gray, lightGray, darkGray));
+        return result;
     }
     
 }

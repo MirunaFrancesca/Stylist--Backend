@@ -34,7 +34,7 @@ public class ApparelController {
         String message;
         try {
             this.apparelService.addApparel(file, type, colour);
-
+            this.outfitGenerationService.updateOutfits();
             message = "Uploaded the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
         } catch (Exception e) {
@@ -46,7 +46,11 @@ public class ApparelController {
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/delete/{id}")
     public boolean deleteApparel(@PathVariable("id") int id){
-        return this.apparelService.deleteApparel(id);
+        if(this.apparelService.deleteApparel(id)) {
+            this.outfitGenerationService.updateOutfits();
+            return true;
+        }
+        return false;
     }
 
     @GetMapping(path="/get/{id}")
@@ -70,7 +74,7 @@ public class ApparelController {
 
     @GetMapping(path="/get-outfit")
     public List<Apparel> getRandomOutfit(){
-        return this.outfitGenerationService.getRandomOufit();
+        return this.outfitGenerationService.getRandomOutfit();
     }
 
 }
