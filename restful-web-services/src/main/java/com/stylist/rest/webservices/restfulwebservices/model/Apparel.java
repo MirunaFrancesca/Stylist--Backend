@@ -5,10 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
+import java.util.Set;
 
 import static java.util.Arrays.asList;
 
@@ -22,6 +22,10 @@ public class Apparel {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable = false)
+    private User user;
 
     @Column(name = "type")
     private String type;
@@ -39,11 +43,36 @@ public class Apparel {
     })
     private FileDB image;
 
+    @ManyToMany
+    @JoinTable(name="saved_outfits",
+            joinColumns=@JoinColumn(name="firstId"),
+            inverseJoinColumns=@JoinColumn(name="secondId")
+    )
+    private List<Apparel> savedMatches;
+
+    public void saveMatch(Apparel newMatch) {
+        if(!this.savedMatches.contains(newMatch)) this.savedMatches.add(newMatch);
+    }
+
+    public void removeMatch(Apparel match) {
+        this.savedMatches.remove(match);
+    }
+
     private static final List<String> tops = new ArrayList<>(asList("t-shirt", "top", "shirt", "blouse", "body", "pullover"));
     private static final List<String> bottoms = new ArrayList<>(asList("trousers", "shorts", "skirt", "dungarees"));
     private static final List<String> onePiece = new ArrayList<>(asList("dress", "overall"));
 
-    public Apparel(String type, BasicColour colour, FileDB image) {
+    public Apparel(User user, String type, BasicColour colour, FileDB image) {
+        this.user = user;
+        this.type = type;
+        this.colour = colour;
+        this.image = image;
+        this.savedMatches = new ArrayList<>();
+    }
+
+    public Apparel(User user, int id, String type, BasicColour colour, FileDB image) {
+        this.user = user;
+        this.id = id;
         this.type = type;
         this.colour = colour;
         this.image = image;

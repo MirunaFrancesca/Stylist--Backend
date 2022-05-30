@@ -5,10 +5,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @Table(name = "User")
 public class User {
