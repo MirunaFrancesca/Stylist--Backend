@@ -54,11 +54,16 @@ public class OutfitService {
     public List<Apparel> getMatchyApparel(Apparel chosenApparel) {
         User currentUser = this.sessionUtils.getCurrentUserId();
         List<BasicColour> colourMatches = this.colourMap.mapMatchingColours(chosenApparel.getColour());
+        System.out.println("Getting colour mactches");
         System.out.println(colourMatches);
-        List<Apparel> allPossibleMatches = this.apparelRepo.findAllByUser(currentUser).stream()
-                                            .filter(item -> item.isBottom() != chosenApparel.isBottom() && colourMatches.stream().map(BasicColour::getName).anyMatch(item.getColour().getName()::equals))
-                                            .collect(Collectors.toList());
-        System.out.println(allPossibleMatches);
+        List<Apparel> allPossibleMatches = new ArrayList<>();
+        if(colourMatches != null) {
+            allPossibleMatches = this.apparelRepo.findAllByUser(currentUser).stream()
+                    .filter(item -> item.isBottom() != chosenApparel.isBottom() && colourMatches.stream().map(BasicColour::getName).anyMatch(item.getColour().getName()::equals))
+                    .collect(Collectors.toList());
+            System.out.println("all possible matches");
+            System.out.println(allPossibleMatches);
+        }
 
         return allPossibleMatches;
     }

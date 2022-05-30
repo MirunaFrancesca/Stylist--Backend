@@ -156,7 +156,7 @@ public class ColourMap {
 
         if(toBeMatched.getName().equals(white.getName()))return getMatchingColoursForWhite();
 
-        return null;
+        return new ArrayList<>();
     }
 
     public boolean containsColour(final List<BasicColour> list, final String colour){
