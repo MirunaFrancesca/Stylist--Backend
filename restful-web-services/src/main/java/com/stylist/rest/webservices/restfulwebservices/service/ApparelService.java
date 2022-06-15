@@ -2,6 +2,7 @@ package com.stylist.rest.webservices.restfulwebservices.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import com.stylist.rest.webservices.restfulwebservices.model.Apparel;
@@ -31,7 +32,7 @@ public class ApparelService {
 
     @Transactional
     public Apparel addApparel(MultipartFile file, String type, BasicColour colour) throws IOException {
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
         FileDB image = new FileDB(fileName, file.getContentType(), file.getBytes());
         User currentUser = this.sessionUtils.getCurrentUserId();
         Apparel newApparel = new Apparel(currentUser, type, colour, image);
