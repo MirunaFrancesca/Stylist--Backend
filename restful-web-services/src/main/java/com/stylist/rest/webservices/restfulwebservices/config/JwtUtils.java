@@ -1,5 +1,6 @@
 package com.stylist.rest.webservices.restfulwebservices.config;
 
+import com.sun.xml.bind.v2.runtime.output.SAXOutput;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -16,7 +17,8 @@ public class JwtUtils {
 
     private static final long serialVersionUID = -2550185165626007488L;
 
-    public static final long JWT_TOKEN_VALIDITY = 60 * 60 * 10;
+    // 10h
+    public static final long JWT_TOKEN_VALIDITY = 60 * 60 * 1000 * 10;
 
     private String secret = "secret";
 
@@ -43,7 +45,8 @@ public class JwtUtils {
     //check if the token has expired
     public Boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
-        return expiration.before(new Date());
+        final Date currentTime = new Date();
+        return currentTime.after(expiration);
     }
 
     //generate token for user
@@ -57,7 +60,7 @@ public class JwtUtils {
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
+                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY))
                 .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
     }

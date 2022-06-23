@@ -6,6 +6,7 @@ import com.stylist.rest.webservices.restfulwebservices.dto.AuthResponseDTO;
 import com.stylist.rest.webservices.restfulwebservices.model.User;
 import com.stylist.rest.webservices.restfulwebservices.service.MyUserDetailsService;
 import com.stylist.rest.webservices.restfulwebservices.service.UserService;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -58,8 +59,14 @@ public class AuthenticationController {
         return new AuthResponseDTO(token);
     }
 
-    @PostMapping("/logout")
-    public void logout() {
-
+    @GetMapping("/checkToken")
+    public Boolean checkToken(@RequestParam("token") String token) {
+        try {
+            return !jwtUtils.isTokenExpired(token);
+        }
+        catch(ExpiredJwtException e) {
+            System.out.println("run into exception");
+            return false;
+        }
     }
 }
