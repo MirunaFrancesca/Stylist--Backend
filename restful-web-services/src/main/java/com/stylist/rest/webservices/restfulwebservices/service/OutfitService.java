@@ -86,9 +86,8 @@ public class OutfitService {
 
     @Transactional
     public boolean saveOutfit(Integer idFirst, Integer idSecond) {
-        User currentUser = this.sessionUtils.getCurrentUserId();
         Apparel first = this.apparelRepo.findById(idFirst).orElseThrow(() -> new EntityNotFoundException(idFirst.toString()));
-        if(idSecond != null) {
+        if(idSecond > -1) {
             Apparel second = this.apparelRepo.findById(idSecond).orElseThrow(() -> new EntityNotFoundException(idSecond.toString()));
             first.saveMatch(second);
         }
@@ -104,13 +103,8 @@ public class OutfitService {
         User currentUser = this.sessionUtils.getCurrentUserId();
         List<List<Apparel>> savedOutfits = new ArrayList<>();
         this.apparelRepo.findAllByUser(currentUser).forEach(item -> {
-            for (Apparel savedMatch : item.getSavedMatches()) {
-                if (savedMatch.getId() != item.getId()) {
-                    savedOutfits.add(asList(item, savedMatch));
-                } else {
-                    savedOutfits.add(asList(item));
-                }
-            }
+            for (Apparel savedMatch : item.getSavedMatches()) savedOutfits.add(asList(item, savedMatch));
+            if (item.isSaved()) savedOutfits.add(asList(item));
         });
         return savedOutfits;
     }
@@ -119,7 +113,7 @@ public class OutfitService {
     public boolean deleteSavedOutfit(Integer idFirst, Integer idSecond) {
         Apparel first = this.apparelRepo.findById(idFirst).orElseThrow();
 
-        if(idSecond != null) {
+        if(idSecond > -1) {
             Apparel second = this.apparelRepo.findById(idSecond).orElseThrow(() -> new EntityNotFoundException(idSecond.toString()));
             first.removeMatch(second);
         }
@@ -128,6 +122,18 @@ public class OutfitService {
         }
 
         return true;
+    }
+
+    @Transactional
+    public boolean isOutfitSaved(Integer idFirst, Integer idSecond) {
+        Apparel first = this.apparelRepo.findById(idFirst).orElseThrow();
+        if(idSecond > -1) {
+            Apparel second = this.apparelRepo.findById(idSecond).orElseThrow();
+            boolean isSaved = first.getSavedMatches().contains(second);
+            System.out.println(isSaved);
+            return isSaved;
+        }
+        return first.isSaved();
     }
 
 

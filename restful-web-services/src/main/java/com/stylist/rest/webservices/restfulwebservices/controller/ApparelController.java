@@ -112,4 +112,10 @@ public class ApparelController {
         return this.outfitService.deleteSavedOutfit(idFirst, idSecond);
     }
 
+    @GetMapping(path="/is-outfit-saved")
+    public boolean isOutfitSaved(@RequestParam("idFirst") Integer idFirst,
+                                 @RequestParam("idSecond") Integer idSecond){
+        return this.outfitService.isOutfitSaved(idFirst, idSecond);
+    }
+
 }

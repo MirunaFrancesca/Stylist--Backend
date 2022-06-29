@@ -50,12 +50,24 @@ public class Apparel {
     )
     private List<Apparel> savedMatches;
 
+    private boolean isSaved = false;
+
     public void saveMatch(Apparel newMatch) {
-        if(!this.savedMatches.contains(newMatch)) this.savedMatches.add(newMatch);
+        if(newMatch.getId() == this.id) this.isSaved = true;
+        else {
+            if (!this.savedMatches.contains(newMatch)) this.savedMatches.add(newMatch);
+        }
+        System.out.println(this.savedMatches);
     }
 
     public void removeMatch(Apparel match) {
-        this.savedMatches.remove(match);
+        if(match.getId() == this.id) this.isSaved = false;
+        else {
+            if (this.savedMatches.contains(match)) {
+                System.out.println("removing match");
+                this.savedMatches.remove(match);
+            }
+        }
     }
 
     private static final List<String> tops = new ArrayList<>(asList("t-shirt", "top", "shirt", "blouse", "body", "pullover"));
@@ -76,6 +88,7 @@ public class Apparel {
         this.type = type;
         this.colour = colour;
         this.image = image;
+        this.savedMatches = new ArrayList<>();
     }
 
     public boolean isTop() {
