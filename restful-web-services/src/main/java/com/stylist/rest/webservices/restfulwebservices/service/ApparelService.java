@@ -51,6 +51,14 @@ public class ApparelService {
     }
 
     public boolean deleteApparel(int id) {
+        User currentUser = this.sessionUtils.getCurrentUserId();
+        Apparel apparel = this.apparelRepo.findById(id).orElseThrow();
+        this.apparelRepo.findAllByUser(currentUser).forEach(item ->
+                {
+                    if(item.getSavedMatches().contains(apparel))
+                        item.removeMatch(apparel);
+                }
+        );
         this.apparelRepo.deleteById(id);
         return this.apparelRepo.findById(id).isEmpty();
     }

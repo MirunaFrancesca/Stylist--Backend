@@ -79,6 +79,8 @@ public class OutfitService {
         List<List<Apparel>> outfitsForUser = this.outfits.get(currentUser);
         if(outfitsForUser.size() > 0) {
             int randomNr = rand.nextInt(outfitsForUser.size());
+            System.out.println(outfitsForUser.size());
+            System.out.println(randomNr);
             return outfitsForUser.get(randomNr);
         }
         return new ArrayList<>();
@@ -130,7 +132,6 @@ public class OutfitService {
         if(idSecond > -1) {
             Apparel second = this.apparelRepo.findById(idSecond).orElseThrow();
             boolean isSaved = first.getSavedMatches().contains(second);
-            System.out.println(isSaved);
             return isSaved;
         }
         return first.isSaved();
